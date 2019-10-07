@@ -47,6 +47,7 @@ jobs:
             pip install -e .
             pip install pytest
             pytest -vv
+            pocket-to-sqlite --help
   test-python-install:
     parameters:
       version:
@@ -75,6 +76,7 @@ jobs:
             pip install -e .
             pip install pytest
             pytest -vv
+            pocket-to-sqlite --help
   deploy:
     docker:
       - image: circleci/python:3.6

@@ -2,6 +2,8 @@ import click
 import json
 import urllib.parse
 import requests
+import sqlite_utils
+from . import utils
 
 CONSUMER_KEY = "87988-a6fd295a556dbdb47960ec60"
 
@@ -46,3 +48,27 @@ def auth(auth):
     codes["consumer_key"] = CONSUMER_KEY
     open(auth, "w").write(json.dumps(codes, indent=4) + "\n")
     click.echo("Authentication tokens written to {}".format(auth))
+
+
+@cli.command()
+@click.argument(
+    "db_path",
+    type=click.Path(file_okay=True, dir_okay=False, allow_dash=False),
+    required=True,
+)
+@click.option(
+    "-a",
+    "--auth",
+    type=click.Path(file_okay=True, dir_okay=False, allow_dash=False),
+    default="auth.json",
+    help="Path to auth tokens, defaults to auth.json",
+)
+@click.option("-s", "--silent", is_flag=True, help="Don't show progress bar")
+def fetch(db_path, auth, silent):
+    "Save Pocket data to a SQLite database"
+    auth = json.load(open(auth))
+    items = utils.fetch_all_items(auth)
+    db = sqlite_utils.Database(db_path)
+    # TODO: Progress bar if not silent
+    utils.save_items(items, db)
+    utils.ensure_fts(db)
