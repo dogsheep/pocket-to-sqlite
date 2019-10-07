@@ -4,7 +4,7 @@
 [![CircleCI](https://circleci.com/gh/dogsheep/pocket-to-sqlite.svg?style=svg)](https://circleci.com/gh/dogsheep/pocket-to-sqlite)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/dogsheep/pocket-to-sqlite/blob/master/LICENSE)
 
-Create a SQLite database containing data from your [Pocket](pocket-to-sqlite fetch pocket.db) account.
+Create a SQLite database containing data from your [Pocket](https://getpocket.com/) account.
 
 ## How to install
 
