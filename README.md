@@ -26,6 +26,12 @@ Now you can fetch all of your items from Pocket like this:
 
     $ pocket-to-sqlite fetch pocket.db
 
+The first time you run this command it will fetch all of your items, and display a progress bar while it does it.
+
+On subsequent runs it will only fetch new items.
+
+You can force it to fetch everything from the beginning again using `--all`. Use `--silent` to disable the progress bar.
+
 ## Using with Datasette
 
-The SQLite database produced by this tool is designed to be browsed using [Datasette](https://datasette.readthedocs.io/).
+The SQLite database produced by this tool is designed to be browsed using [Datasette](https://datasette.readthedocs.io/). Use the [datasette-render-timestamps](https://github.com/simonw/datasette-render-timestamps) plugin to improve the display of the timestamp values.
