@@ -70,8 +70,8 @@ def fetch_all_items(auth):
     data = requests.get(
         "https://getpocket.com/v3/get",
         {
-            "consumer_key": auth["consumer_key"],
-            "access_token": auth["access_token"],
+            "consumer_key": auth["pocket_consumer_key"],
+            "access_token": auth["pocket_access_token"],
             "detailType": "complete",
         },
     ).json()

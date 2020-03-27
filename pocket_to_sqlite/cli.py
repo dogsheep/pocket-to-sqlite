@@ -45,8 +45,19 @@ def auth(auth):
         {"consumer_key": CONSUMER_KEY, "code": request_token},
     )
     codes = dict(urllib.parse.parse_qsl(response2.text))
+
     codes["consumer_key"] = CONSUMER_KEY
-    open(auth, "w").write(json.dumps(codes, indent=4) + "\n")
+    open(auth, "w").write(
+        json.dumps(
+            {
+                "pocket_consumer_key": CONSUMER_KEY,
+                "pocket_username": codes["username"],
+                "pocket_access_token": codes["access_token"],
+            },
+            indent=4,
+        )
+        + "\n"
+    )
     click.echo("Authentication tokens written to {}".format(auth))
 
 
