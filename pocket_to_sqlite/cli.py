@@ -74,12 +74,25 @@ def auth(auth):
     default="auth.json",
     help="Path to auth tokens, defaults to auth.json",
 )
+@click.option("-a", "--all", is_flag=True, help="Fetch all items (not just new ones)")
 @click.option("-s", "--silent", is_flag=True, help="Don't show progress bar")
-def fetch(db_path, auth, silent):
+def fetch(db_path, auth, all, silent):
     "Save Pocket data to a SQLite database"
     auth = json.load(open(auth))
-    items = utils.fetch_all_items(auth)
     db = sqlite_utils.Database(db_path)
-    # TODO: Progress bar if not silent
-    utils.save_items(items, db)
+    last_since = None
+    if not all and db["since"].exists():
+        last_since = db["since"].get(1)["since"]
+    fetch = utils.FetchItems(auth, since=last_since, record_since=lambda since: db["since"].insert({
+        "id": 1,
+        "since": since
+    }, replace=True, pk="id"))
+    if all or last_since is None:
+        total_items = utils.fetch_stats(auth)["count_list"]
+        with click.progressbar(fetch, length=total_items) as bar:
+            utils.save_items(bar, db)
+    else:
+        # No progress bar
+        print("Fetching items since {}".format(last_since))
+        utils.save_items(fetch, db)
     utils.ensure_fts(db)

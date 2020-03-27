@@ -26,7 +26,7 @@ setup(
         [console_scripts]
         pocket-to-sqlite=pocket_to_sqlite.cli:cli
     """,
-    install_requires=["sqlite-utils~=1.10", "click", "requests"],
+    install_requires=["sqlite-utils~=2.4.4", "click", "requests"],
     extras_require={"test": ["pytest"]},
     tests_require=["pocket-to-sqlite[test]"],
 )
